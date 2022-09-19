@@ -16,7 +16,7 @@ use serde::{
     de::{Deserialize, Deserializer},
     ser::{Serialize, Serializer},
 };
-use serde_json::Value;
+use serde_json::{Map, Value};
 use tokio::sync::RwLock;
 
 pub const MISC_ERROR_CODE: i64 = -1;
@@ -104,8 +104,54 @@ pub trait RpcMethod {
 #[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct GenericRpcMethod(pub String);
 
+#[derive(Debug)]
+pub enum GenericRpcParams {
+    Array(Vec<Value>),
+    Object(Map<String, Value>),
+}
+impl Serialize for GenericRpcParams {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        match self {
+            GenericRpcParams::Array(s) => s.serialize(serializer),
+            GenericRpcParams::Object(b) => b.serialize(serializer),
+        }
+    }
+}
+impl<'de> Deserialize<'de> for GenericRpcParams {
+    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        struct Visitor;
+        impl<'de> serde::de::Visitor<'de> for Visitor {
+            type Value = GenericRpcParams;
+            fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                write!(formatter, "an array or object")
+            }
+            fn visit_seq<A: serde::de::SeqAccess<'de>>(
+                self,
+                mut seq: A,
+            ) -> Result<Self::Value, A::Error> {
+                let mut res = Vec::with_capacity(seq.size_hint().unwrap_or(16));
+                while let Some(elem) = seq.next_element()? {
+                    res.push(elem);
+                }
+                Ok(GenericRpcParams::Array(res))
+            }
+            fn visit_map<A: serde::de::MapAccess<'de>>(
+                self,
+                mut map: A,
+            ) -> Result<Self::Value, A::Error> {
+                let mut res = Map::with_capacity(map.size_hint().unwrap_or(16));
+                while let Some((k, v)) = map.next_entry()? {
+                    res.insert(k, v);
+                }
+                Ok(GenericRpcParams::Object(res))
+            }
+        }
+        deserializer.deserialize_any(Visitor)
+    }
+}
+
 impl RpcMethod for GenericRpcMethod {
-    type Params = Vec<Value>;
+    type Params = GenericRpcParams;
     type Response = Value;
     fn as_str<'a>(&'a self) -> &'a str {
         self.0.as_str()
@@ -119,7 +165,6 @@ impl std::ops::Deref for GenericRpcMethod {
         &self.0
     }
 }
-
 
 #[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct RpcRequest<T: RpcMethod> {
