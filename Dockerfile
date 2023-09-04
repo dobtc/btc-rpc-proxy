@@ -1,16 +1,19 @@
-FROM rust:latest AS builder
+FROM --platform=$BUILDPLATFORM rust:latest AS builder
 
 WORKDIR /app
 COPY . /app
 
-RUN cargo build --release
+RUN cargo build --target x86_64-unknown-linux-musl --release
+COPY /app/target/release/btc_rpc_proxy /brp-amd64
+RUN cargo build --target aarch64-unknown-linux-musl --release
+COPY /app/target/release/btc_rpc_proxy /brp-arm64
 
 FROM alpine:latest
 
 RUN apk add --update --no-cache bash curl tini yq ca-certificates
 
 COPY --from=builder /app/btc_rpc_proxy.toml /etc/btc_rpc_proxy.toml
-COPY --from=builder /app/target/release/btc_rpc_proxy /usr/local/bin/btc-rpc-proxy
+COPY --from=builder /brp-$TARGETARCH /usr/local/bin/btc-rpc-proxy
 
 RUN chmod 600 /etc/btc_rpc_proxy.toml
 RUN chmod a+x /usr/local/bin/btc-rpc-proxy
