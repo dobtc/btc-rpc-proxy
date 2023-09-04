@@ -1,7 +1,7 @@
 FROM --platform=$BUILDPLATFORM rust:latest AS builder
 
 RUN dpkg --add-architecture arm64
-RUN apt update && apt install -y musl-tools musl-dev aarch64-linux-musl-gcc musl:arm64
+RUN apt update && apt install -y musl-tools musl-dev musl:arm64
 RUN update-ca-certificates
 
 ARG TARGETPLATFORM
