@@ -1,7 +1,7 @@
 FROM --platform=$BUILDPLATFORM rust:latest AS builder
 
-WORKDIR /app
-COPY . /app
+RUN apt update && apt install -y musl-tools musl-dev
+RUN update-ca-certificates
 
 RUN rustup target add x86_64-unknown-linux-musl
 RUN rustup toolchain install stable-x86_64-unknown-linux-musl
@@ -9,9 +9,13 @@ RUN rustup toolchain install stable-x86_64-unknown-linux-musl
 RUN rustup target add aarch64-unknown-linux-musl
 RUN rustup toolchain install stable-aarch64-unknown-linux-musl
 
+WORKDIR /app
+COPY . /app
+
 RUN cargo build --target x86_64-unknown-linux-musl --release
-COPY /app/target/x86_64-unknown-linux-musl/release/btc_rpc_proxy /brp-amd64
 RUN cargo build --target aarch64-unknown-linux-musl --release
+
+COPY /app/target/x86_64-unknown-linux-musl/release/btc_rpc_proxy /brp-amd64
 COPY /app/target/aarch64-unknown-linux-musl/release/btc_rpc_proxy /brp-arm64
 
 FROM alpine:latest
