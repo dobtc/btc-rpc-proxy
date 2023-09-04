@@ -8,9 +8,7 @@ RUN cargo build --release
 FROM alpine:latest
 
 RUN apk update
-RUN apk add bash curl tini
-
-RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${TARGETARCH} && chmod +x /usr/local/bin/yq
+RUN apk add bash curl tini yq
 
 COPY --from=builder /app/btc-rpc-proxy /usr/local/bin/btc-rpc-proxy
 
