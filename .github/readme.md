@@ -1,3 +1,16 @@
+<h1 align="center">Bitcoin RPC Proxy<br />
+<div align="center">
+<img src="https://raw.githubusercontent.com/dobtc/btc-rpc-proxy/master/.github/logo.png" title="Logo" style="max-width:100%;" width="128" />
+</div>
+<div align="center">
+  
+[![Build]][build_url]
+[![Version]][tag_url]
+[![Size]][tag_url]
+[![Pulls]][hub_url]
+
+</div></h1>
+
 # Bitcoin RPC Proxy
 
 Finer-grained permission management for bitcoind.
@@ -49,7 +62,11 @@ Especially in case of packaged software.
 * No support for Unix sockets.
 * Redirect instead of blocking might be a useful feaure, which is now lacking.
 
-License
--------
+[build_url]: https://github.com/dobtc/btc-rpc-proxy/
+[hub_url]: https://hub.docker.com/r/dobtc/btc-rpc-proxy/
+[tag_url]: https://hub.docker.com/r/dobtc/btc-rpc-proxy/tags
 
-MITNFA
+[Build]: https://github.com/dobtc/btc-rpc-proxy/actions/workflows/build.yml/badge.svg
+[Size]: https://img.shields.io/docker/image-size/dobtc/btc-rpc-proxy/latest?color=066da5&label=size
+[Pulls]: https://img.shields.io/docker/pulls/dobtc/btc-rpc-proxy.svg?style=flat&label=pulls&logo=docker
+[Version]: https://img.shields.io/docker/v/dobtc/btc-rpc-proxy?arch=amd64&sort=date&color=066da5
