@@ -19,7 +19,7 @@ RUN chmod a+x /usr/local/bin/entrypoint.sh
 # Container version
 ARG DATE_ARG=""
 ARG BUILD_ARG=0
-ARG VERSION_ARG="0.0"
+ARG VERSION_ARG="0.3.2.7"
 ENV VERSION=$VERSION_ARG
 
 LABEL org.opencontainers.image.created=${DATE_ARG}
