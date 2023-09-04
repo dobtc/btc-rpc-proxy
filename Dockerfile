@@ -4,9 +4,9 @@ WORKDIR /app
 COPY . /app
 
 RUN cargo build --target x86_64-unknown-linux-musl --release
-COPY /app/target/release/btc_rpc_proxy /brp-amd64
+COPY /app/target/x86_64-unknown-linux-musl/release/btc_rpc_proxy /brp-amd64
 RUN cargo build --target aarch64-unknown-linux-musl --release
-COPY /app/target/release/btc_rpc_proxy /brp-arm64
+COPY /app/target/aarch64-unknown-linux-musl/release/btc_rpc_proxy /brp-arm64
 
 FROM alpine:latest
 
