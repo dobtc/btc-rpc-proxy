@@ -1,27 +1,36 @@
-FROM rust:latest AS builder
+FROM --platform=$BUILDPLATFORM rust:latest AS builder
+
+RUN apt update && apt install -y musl-tools musl-dev
+RUN update-ca-certificates
+
+ARG TARGETPLATFORM
+RUN case "$TARGETPLATFORM" in \
+      "linux/amd64") echo x86_64-unknown-linux-musl > /rust_target.txt ;; \
+      "linux/arm64") echo aarch64-unknown-linux-musl > /rust_target.txt ;; \
+      *) exit 1 ;; \
+    esac
+RUN rustup target add $(cat /rust_target.txt)
+RUN rustup toolchain install stable-$(cat /rust_target.txt)
 
 WORKDIR /app
 COPY . /app
 
-RUN cargo build --release
+RUN cargo build --release --target $(cat /rust_target.txt)
+RUN cp target/$(cat /rust_target.txt)/release/btc_rpc_proxy .
 
-FROM debian:bookworm-slim
+FROM alpine:latest
 
-ARG DEBCONF_NOWARNINGS="yes"
-ARG DEBIAN_FRONTEND noninteractive
+RUN apk add --update --no-cache \
+      yq \
+      tini \
+      bash \
+      curl \
+      ca-certificates \
+    && rm -rf /var/cache/* \
+    && mkdir /var/cache/apk
 
-RUN apt-get update && apt-get -y upgrade && \
-    apt-get --no-install-recommends -y install \
-	yq \
-	tini \
-	bash \
-	curl \
-	ca-certificates \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-    
 COPY --from=builder /app/btc_rpc_proxy.toml /etc/btc_rpc_proxy.toml
-COPY --from=builder /app/target/release/btc_rpc_proxy /usr/local/bin/btc-rpc-proxy
+COPY --from=builder /app/btc_rpc_proxy /usr/local/bin/btc-rpc-proxy
 
 RUN chmod 600 /etc/btc_rpc_proxy.toml
 RUN chmod a+x /usr/local/bin/btc-rpc-proxy
@@ -40,5 +49,5 @@ LABEL org.opencontainers.image.source=https://github.com/dobtc/btc-rpc-proxy/
 
 EXPOSE 8332
 
-ENTRYPOINT [ "/usr/local/bin/tini", "--"]
-CMD ["/usr/local/bin/btc-rpc-proxy", "--conf /etc/btc_rpc_proxy.toml"]
+ENTRYPOINT [ "/sbin/tini", "--"]
+CMD ["/usr/local/bin/btc-rpc-proxy", "--conf", "/etc/btc_rpc_proxy.toml"]
