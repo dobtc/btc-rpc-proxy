@@ -16,8 +16,8 @@ RUN rustup toolchain install stable-$(cat /rust_target.txt) --force-non-host
 WORKDIR /app
 COPY . /app
 
-export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=aarch64-linux-gnu-gcc
-export CC=aarch64-linux-gnu-gcc
+RUN export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=aarch64-linux-gnu-gcc
+RUN export CC=aarch64-linux-gnu-gcc
 
 RUN cargo build --release --target $(cat /rust_target.txt)
 RUN cp target/$(cat /rust_target.txt)/release/btc_rpc_proxy .
