@@ -3,9 +3,7 @@ FROM rust:latest AS builder
 WORKDIR /app
 COPY . /app
 
-RUN cargo build --release --nocache
-
-COPY /app/target/release/btc_rpc_proxy /app/btc-rpc-proxy
+RUN cargo build --release
 
 FROM debian:bookworm-slim
 
@@ -22,8 +20,8 @@ RUN apt-get update && apt-get -y upgrade && \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
     
-COPY --from=builder /app/btc-rpc-proxy /usr/local/bin/btc-rpc-proxy
 COPY --from=builder /app/btc_rpc_proxy.toml /etc/btc_rpc_proxy.toml
+COPY --from=builder /app/target/release/btc_rpc_proxy /usr/local/bin/btc-rpc-proxy
 
 RUN chmod 600 /etc/btc_rpc_proxy.toml
 RUN chmod a+x /usr/local/bin/btc-rpc-proxy
