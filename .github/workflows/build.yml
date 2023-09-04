@@ -36,7 +36,8 @@ jobs:
         run: |
         
           PLATFORMS="linux/amd64,linux/arm64"
-          VERSION="${{ vars.MAJOR }}.${{ vars.MINOR }}"
+          VERSION=$(grep --only-matching --perl-regex "(?<=VERSION_ARG\=).*" ./Dockerfile)
+          VERSION=$(echo "${VERSION}" | xargs)
           
           TAGS=()
           TAGS=("${{ secrets.DOCKERHUB_REPO }}:latest")
@@ -83,8 +84,4 @@ jobs:
         name: Clear Docker credentials
         run: |
           rm -f ${HOME}/.docker/config.json
-      -
-        name: Increment version variable
-        uses: action-pack/bump@v2
-        with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+      
