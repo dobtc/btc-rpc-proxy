@@ -9,6 +9,7 @@ FROM alpine:latest
 
 RUN apk --update --no-cache bash curl tini yq
 
+COPY --from=builder /app/btc_rpc_proxy.toml /etc/btc_rpc_proxy.toml
 COPY --from=builder /app/target/release/btc_rpc_proxy /usr/local/bin/btc-rpc-proxy
 
 RUN chmod a+x /usr/local/bin/btc-rpc-proxy
