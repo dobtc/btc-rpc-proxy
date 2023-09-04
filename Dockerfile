@@ -3,7 +3,7 @@ FROM rust:latest AS builder
 WORKDIR /app
 COPY . /app
 
-RUN cargo build --release
+RUN cargo build --release --nocache
 
 COPY /app/target/release/btc_rpc_proxy /app/btc-rpc-proxy
 
