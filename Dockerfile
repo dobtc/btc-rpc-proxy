@@ -7,8 +7,7 @@ RUN cargo build --release
 
 FROM alpine:latest
 
-RUN apk update
-RUN apk add bash curl tini yq
+RUN apk --update --no-cache bash curl tini yq
 
 COPY --from=builder /app/target/release/btc_rpc_proxy /usr/local/bin/btc-rpc-proxy
 
