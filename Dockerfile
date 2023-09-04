@@ -3,6 +3,12 @@ FROM --platform=$BUILDPLATFORM rust:latest AS builder
 WORKDIR /app
 COPY . /app
 
+RUN rustup target add x86_64-unknown-linux-musl
+RUN rustup toolchain install stable-x86_64-unknown-linux-musl
+
+RUN rustup target add aarch64-unknown-linux-musl
+RUN rustup toolchain install stable-aarch64-unknown-linux-musl
+
 RUN cargo build --target x86_64-unknown-linux-musl --release
 COPY /app/target/x86_64-unknown-linux-musl/release/btc_rpc_proxy /brp-amd64
 RUN cargo build --target aarch64-unknown-linux-musl --release
