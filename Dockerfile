@@ -12,6 +12,7 @@ RUN apk add --update --no-cache bash curl tini yq
 COPY --from=builder /app/btc_rpc_proxy.toml /etc/btc_rpc_proxy.toml
 COPY --from=builder /app/target/release/btc_rpc_proxy /usr/local/bin/btc-rpc-proxy
 
+RUN chmod 600 /etc/btc_rpc_proxy.toml
 RUN chmod a+x /usr/local/bin/btc-rpc-proxy
 
 # Container version
@@ -28,4 +29,4 @@ LABEL org.opencontainers.image.source=https://github.com/dobtc/btc-rpc-proxy/
 
 EXPOSE 8332
 
-ENTRYPOINT [ "/sbin/tini", "--", "btc-rpc-proxy" ]
+ENTRYPOINT [ "/sbin/tini", "--", "btc-rpc-proxy --conf /etc/btc_rpc_proxy.toml" ]
