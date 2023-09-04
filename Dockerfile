@@ -10,7 +10,7 @@ FROM alpine:latest
 RUN apk update
 RUN apk add bash curl tini yq
 
-COPY --from=builder /app/btc-rpc-proxy /usr/local/bin/btc-rpc-proxy
+COPY --from=builder /app/target/release/btc-rpc-proxy /usr/local/bin/btc-rpc-proxy
 
 RUN chmod a+x /usr/local/bin/btc-rpc-proxy
 ADD ./entrypoint.sh /usr/local/bin/entrypoint.sh
