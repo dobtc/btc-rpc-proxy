@@ -7,7 +7,7 @@ RUN cargo build --release
 
 FROM alpine:latest
 
-RUN apk add --update --no-cache bash curl tini yq
+RUN apk add --update --no-cache bash curl tini yq ca-certificates
 
 COPY --from=builder /app/btc_rpc_proxy.toml /etc/btc_rpc_proxy.toml
 COPY --from=builder /app/target/release/btc_rpc_proxy /usr/local/bin/btc-rpc-proxy
@@ -29,4 +29,5 @@ LABEL org.opencontainers.image.source=https://github.com/dobtc/btc-rpc-proxy/
 
 EXPOSE 8332
 
-ENTRYPOINT [ "/sbin/tini", "--", "btc-rpc-proxy --conf /etc/btc_rpc_proxy.toml" ]
+ENTRYPOINT [ "/sbin/tini", "--"]
+CMD ["/usr/local/bin/btc-rpc-proxy", "--conf /etc/btc_rpc_proxy.toml"]
