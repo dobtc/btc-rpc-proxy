@@ -22,7 +22,7 @@ version: "3"
 services:
   rpc-proxy:
     container_name: rpc-proxy
-    image: dobtc/bitcoin-rpc-proxy
+    image: dobtc/btc-rpc-proxy
     ports:
       - 8332:8332
     volumes:
