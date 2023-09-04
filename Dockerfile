@@ -15,6 +15,8 @@ COPY . /app
 RUN cargo build --target x86_64-unknown-linux-musl --release
 RUN cargo build --target aarch64-unknown-linux-musl --release
 
+RUN ls /app/target
+
 COPY /app/target/x86_64-unknown-linux-musl/release/btc_rpc_proxy /brp-amd64
 COPY /app/target/aarch64-unknown-linux-musl/release/btc_rpc_proxy /brp-arm64
 
