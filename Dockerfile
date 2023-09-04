@@ -17,8 +17,6 @@ COPY --from=builder /app/btc-rpc-proxy /usr/local/bin/btc-rpc-proxy
 RUN chmod a+x /usr/local/bin/btc-rpc-proxy
 ADD ./entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod a+x /usr/local/bin/entrypoint.sh
-ADD ./check-rpc.sh /usr/local/bin/check-rpc.sh
-RUN chmod a+x /usr/local/bin/check-rpc.sh
 
 # Container version
 ARG DATE_ARG=""
