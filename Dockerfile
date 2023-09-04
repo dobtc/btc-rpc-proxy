@@ -34,7 +34,7 @@ LABEL org.opencontainers.image.version=${VERSION_ARG}
 LABEL org.opencontainers.image.url=https://hub.docker.com/r/dobtc/btc-rpc-proxy/
 LABEL org.opencontainers.image.source=https://github.com/dobtc/btc-rpc-proxy/
 
-EXPOSE 8332
+EXPOSE 8331
 
 ENTRYPOINT [ "tini", "--"]
 CMD ["/usr/local/bin/btc-rpc-proxy", "--conf", "/etc/btc_rpc_proxy.toml"]
