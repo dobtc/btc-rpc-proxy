@@ -40,7 +40,7 @@ LABEL org.opencontainers.image.source=https://github.com/dobtc/btc-rpc-proxy/
 
 EXPOSE 8332
 
-ENTRYPOINT [ "/usr/local/bin/tini", "--"]
+ENTRYPOINT [ "tini", "--"]
 CMD ["/usr/local/bin/btc-rpc-proxy", "--conf /etc/btc_rpc_proxy.toml"]
 
 
