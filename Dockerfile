@@ -13,8 +13,6 @@ COPY --from=builder /app/btc_rpc_proxy.toml /etc/btc_rpc_proxy.toml
 COPY --from=builder /app/target/release/btc_rpc_proxy /usr/local/bin/btc-rpc-proxy
 
 RUN chmod a+x /usr/local/bin/btc-rpc-proxy
-ADD ./entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod a+x /usr/local/bin/entrypoint.sh
 
 # Container version
 ARG DATE_ARG=""
@@ -30,4 +28,4 @@ LABEL org.opencontainers.image.source=https://github.com/dobtc/btc-rpc-proxy/
 
 EXPOSE 8332
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT [ "/sbin/tini", "--", "btc-rpc-proxy" ]
