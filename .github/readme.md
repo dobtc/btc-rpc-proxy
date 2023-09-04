@@ -11,9 +11,23 @@
 
 </div></h1>
 
-# Bitcoin RPC Proxy
-
 Finer-grained permission management for bitcoind.
+
+## How to use
+
+Via `docker-compose`
+
+```yaml
+version: "3"
+services:
+  rpc-proxy:
+    container_name: rpc-proxy
+    image: dobtc/bitcoin-rpc-proxy
+    ports:
+      - 8332:8332
+    volumes:
+      - /path/to/config/btc_rpc_proxy.toml:/etc/btc_rpc_proxy.toml
+```
 
 ## About
 
