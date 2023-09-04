@@ -1,31 +1,29 @@
-FROM --platform=$BUILDPLATFORM rust:latest AS builder
-
-RUN apt update && apt install -y musl-tools musl-dev
-RUN update-ca-certificates
-
-RUN rustup target add x86_64-unknown-linux-musl
-RUN rustup toolchain install stable-x86_64-unknown-linux-musl
-
-RUN rustup target add aarch64-unknown-linux-musl
-RUN rustup toolchain install stable-aarch64-unknown-linux-musl
+FROM rust:latest AS builder
 
 WORKDIR /app
 COPY . /app
 
-RUN cargo build --target x86_64-unknown-linux-musl --release
-RUN cargo build --target aarch64-unknown-linux-musl --release
+RUN cargo build --release
 
-RUN ls /app/target
+COPY /app/target/release/btc_rpc_proxy /app/btc-rpc-proxy
 
-COPY /app/target/x86_64-unknown-linux-musl/release/btc_rpc_proxy /brp-amd64
-COPY /app/target/aarch64-unknown-linux-musl/release/btc_rpc_proxy /brp-arm64
+FROM debian:bookworm-slim
 
-FROM alpine:latest
+ARG DEBCONF_NOWARNINGS="yes"
+ARG DEBIAN_FRONTEND noninteractive
 
-RUN apk add --update --no-cache bash curl tini yq ca-certificates
-
+RUN apt-get update && apt-get -y upgrade && \
+    apt-get --no-install-recommends -y install \
+	yq \
+	tini \
+	bash \
+	curl \
+	ca-certificates \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    
+COPY --from=builder /app/btc-rpc-proxy /usr/local/bin/btc-rpc-proxy
 COPY --from=builder /app/btc_rpc_proxy.toml /etc/btc_rpc_proxy.toml
-COPY --from=builder /brp-$TARGETARCH /usr/local/bin/btc-rpc-proxy
 
 RUN chmod 600 /etc/btc_rpc_proxy.toml
 RUN chmod a+x /usr/local/bin/btc-rpc-proxy
@@ -44,5 +42,5 @@ LABEL org.opencontainers.image.source=https://github.com/dobtc/btc-rpc-proxy/
 
 EXPOSE 8332
 
-ENTRYPOINT [ "/sbin/tini", "--"]
+ENTRYPOINT [ "/usr/local/bin/tini", "--"]
 CMD ["/usr/local/bin/btc-rpc-proxy", "--conf /etc/btc_rpc_proxy.toml"]
