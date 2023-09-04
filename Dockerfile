@@ -1,6 +1,6 @@
 FROM --platform=$BUILDPLATFORM rust:latest AS builder
 
-RUN apt update && apt install -y musl-tools musl-dev
+RUN apt update && apt install -y musl-tools musl-dev aarch64-linux-musl-gcc
 RUN update-ca-certificates
 
 ARG TARGETPLATFORM
@@ -10,7 +10,7 @@ RUN case "$TARGETPLATFORM" in \
       *) exit 1 ;; \
     esac
 RUN rustup target add $(cat /rust_target.txt)
-RUN rustup toolchain install stable-$(cat /rust_target.txt)
+RUN rustup toolchain install stable-$(cat /rust_target.txt) --force-non-host
 
 WORKDIR /app
 COPY . /app
