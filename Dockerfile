@@ -12,11 +12,7 @@ ARG DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get -y upgrade && \
     apt-get --no-install-recommends -y install \
-	yq \
 	tini \
-	bash \
-	curl \
-	ca-certificates \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
     
@@ -41,7 +37,7 @@ LABEL org.opencontainers.image.source=https://github.com/dobtc/btc-rpc-proxy/
 EXPOSE 8332
 
 ENTRYPOINT [ "tini", "--"]
-CMD ["/usr/local/bin/btc-rpc-proxy", "--conf /etc/btc_rpc_proxy.toml"]
+CMD ["/usr/local/bin/btc-rpc-proxy --conf /etc/btc_rpc_proxy.toml"]
 
 
 #FROM --platform=$BUILDPLATFORM rust:latest AS builder
@@ -81,21 +77,3 @@ CMD ["/usr/local/bin/btc-rpc-proxy", "--conf /etc/btc_rpc_proxy.toml"]
 #
 #RUN chmod 600 /etc/btc_rpc_proxy.toml
 #RUN chmod a+x /usr/local/bin/btc-rpc-proxy
-#
-## Container version
-#ARG DATE_ARG=""
-#ARG BUILD_ARG=0
-#ARG VERSION_ARG="0.3.2.7"
-#ENV VERSION=$VERSION_ARG
-#
-#LABEL org.opencontainers.image.created=${DATE_ARG}
-#LABEL org.opencontainers.image.revision=${BUILD_ARG}
-#LABEL org.opencontainers.image.version=${VERSION_ARG}
-#LABEL org.opencontainers.image.url=https://hub.docker.com/r/dobtc/btc-rpc-proxy/
-#LABEL org.opencontainers.image.source=https://github.com/dobtc/btc-rpc-proxy/
-#
-#EXPOSE 8332
-#
-#ENTRYPOINT [ "/sbin/tini", "--"]
-#CMD ["/usr/local/bin/btc-rpc-proxy", "--conf", "/etc/btc_rpc_proxy.toml"]
-#
