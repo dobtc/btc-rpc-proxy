@@ -1,4 +1,4 @@
-verbose = 2
+verbose = 4
 max_peer_concurrency = 4
 default_fetch_blocks = true
 bitcoind_address = "172.23.0.10"
