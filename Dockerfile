@@ -10,7 +10,7 @@ FROM alpine:latest
 RUN apk update
 RUN apk add bash curl tini
 
-RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${TARGET_PLATFORM} && chmod +x /usr/local/bin/yq
+RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${TARGETARCH} && chmod +x /usr/local/bin/yq
 
 COPY --from=builder /app/btc-rpc-proxy /usr/local/bin/btc-rpc-proxy
 
