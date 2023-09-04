@@ -24,7 +24,7 @@ services:
     container_name: rpc-proxy
     image: dobtc/btc-rpc-proxy
     ports:
-      - 8332:8332
+      - 8331:8331
     volumes:
       - /path/to/config/btc_rpc_proxy.toml:/etc/btc_rpc_proxy.toml
 ```
