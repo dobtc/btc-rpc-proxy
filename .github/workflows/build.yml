@@ -73,7 +73,6 @@ jobs:
           echo "Tags: ${{ steps.prepare.outputs.tags }}"
 
           docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
-            --no-cache \
             --output "type=image,push=true" \
             --progress=plain \
             --build-arg "BUILD_ARG=${GITHUB_RUN_ID}" \
