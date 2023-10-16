@@ -28,11 +28,13 @@ ARG BUILD_ARG=0
 ARG VERSION_ARG="0.3.2.7"
 ENV VERSION=$VERSION_ARG
 
+LABEL org.opencontainers.image.title=btc-rpc-proxy
 LABEL org.opencontainers.image.created=${DATE_ARG}
 LABEL org.opencontainers.image.revision=${BUILD_ARG}
 LABEL org.opencontainers.image.version=${VERSION_ARG}
 LABEL org.opencontainers.image.url=https://hub.docker.com/r/dobtc/btc-rpc-proxy/
 LABEL org.opencontainers.image.source=https://github.com/dobtc/btc-rpc-proxy/
+LABEL org.opencontainers.image.description=Bitcoin RPC proxy
 
 EXPOSE 8331
 
