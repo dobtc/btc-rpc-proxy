@@ -2,18 +2,7 @@ name: Build
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - disabled
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.yml'
-      - '.gitignore'
-      - '.dockerignore'
-      - '.github/**'
-      - '.github/workflows/**'
-      - 'Dockerfile'
-      
+  
 jobs:
   build:
     name: Build
