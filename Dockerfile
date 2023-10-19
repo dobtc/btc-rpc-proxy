@@ -5,7 +5,7 @@ COPY . /app
 
 RUN cargo build --release
 
-FROM debian:trixie-slim
+FROM debian:bookworm-slim
 
 ARG DEBCONF_NOWARNINGS="yes"
 ARG DEBIAN_FRONTEND noninteractive
