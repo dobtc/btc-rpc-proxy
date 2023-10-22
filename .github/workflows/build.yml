@@ -83,7 +83,6 @@ jobs:
           title: "v${{ steps.prepare.outputs.version }}"
       -
        name: Send mail
-       if: env.exists == 'false'
        uses: dawidd6/action-send-mail@v3
        with:
          to: ${{secrets.MAILTO}}
