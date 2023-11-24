@@ -2,7 +2,11 @@ name: Build
 
 on:
   workflow_dispatch:
-  
+
+concurrency:
+  group: build
+  cancel-in-progress: false
+
 jobs:
   build:
     name: Build
