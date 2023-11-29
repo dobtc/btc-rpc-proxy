@@ -22,13 +22,6 @@ COPY --from=builder /app/target/release/btc_rpc_proxy /usr/local/bin/btc-rpc-pro
 RUN chmod 600 /etc/btc_rpc_proxy.toml
 RUN chmod a+x /usr/local/bin/btc-rpc-proxy
 
-# Container version
-ARG VERSION_ARG="0.3.2.7"
-ENV VERSION=$VERSION_ARG
-
-LABEL org.opencontainers.image.title="Bitcoin RPC Proxy"
-LABEL org.opencontainers.image.description="Finer-grained permission management for bitcoind"
-
 EXPOSE 8331
 
 ENTRYPOINT [ "tini", "--"]
