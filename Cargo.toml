@@ -49,7 +49,7 @@ itertools = "0.10.0"
 lazy_static = "1.4.0"
 linear-map = { version = "1.2.0", features = ["serde_impl"] }
 serde = { version = "1.0.117", features = ["derive"] }
-serde_json = "1.0.59"
+serde_json = "1.0.99"
 slog = "2.7.0"
 slog-async = "2.6.0"
 slog-term = "2.9.0"
