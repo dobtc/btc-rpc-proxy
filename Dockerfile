@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . /app
 
 ARG VERSION_ARG="0.0"
-RUN sed -i "s/0.0.0-development/${VERSION_ARG}/" /app/Cargo.toml
+RUN sed -i "s/0.0.0-development/${VERSION_ARG}.0/" /app/Cargo.toml
 
 RUN cargo build --release
 
