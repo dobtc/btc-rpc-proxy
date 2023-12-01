@@ -4,9 +4,9 @@ authors = [
   "Aiden McClelland <aiden@start9labs.com>",
 ]
 description = "Finer-grained permission management for bitcoind."
-edition = "2018"
+edition = "2023"
 name = "btc-rpc-proxy"
-version = "0.3.2"
+version = "0.0.0-development"
 
 [lib]
 name = "btc_rpc_proxy"
