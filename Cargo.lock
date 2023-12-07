@@ -116,7 +116,7 @@ dependencies = [
  "enum_future",
  "futures 0.3.13",
  "hex",
- "http",
+ "http 1.0.0",
  "hyper",
  "itertools",
  "lazy_static",
@@ -493,7 +493,7 @@ dependencies = [
  "futures-core",
  "futures-sink",
  "futures-util",
- "http",
+ "http 0.2.11",
  "indexmap",
  "slab",
  "tokio 1.21.2",
@@ -534,13 +534,24 @@ dependencies = [
 
 [[package]]
 name = "http"
-version = "0.2.3"
+version = "0.2.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7245cd7449cc792608c3c8a9eaf69bd4eabbabf802713748fd739c98b82f0747"
+checksum = "8947b1a6fad4393052c7ba1f4cd97bed3e953a95c79c92ad9b051a04611d9fbb"
 dependencies = [
  "bytes 1.0.1",
  "fnv",
- "itoa 0.4.7",
+ "itoa 1.0.4",
+]
+
+[[package]]
+name = "http"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b32afd38673a8016f7c9ae69e5af41a58f81b1d31689040f2f1959594ce194ea"
+dependencies = [
+ "bytes 1.0.1",
+ "fnv",
+ "itoa 1.0.4",
 ]
 
 [[package]]
@@ -550,7 +561,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2861bd27ee074e5ee891e8b539837a9430012e249d7f0ca2d795650f579c1994"
 dependencies = [
  "bytes 1.0.1",
- "http",
+ "http 0.2.11",
 ]
 
 [[package]]
@@ -576,7 +587,7 @@ dependencies = [
  "futures-core",
  "futures-util",
  "h2",
- "http",
+ "http 0.2.11",
  "http-body",
  "httparse",
  "httpdate",
