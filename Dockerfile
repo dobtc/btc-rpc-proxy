@@ -5,6 +5,7 @@ COPY . /app
 
 ARG VERSION_ARG="0.0"
 RUN sed -i "s/0.0.0-development/${VERSION_ARG}.0/" /app/Cargo.toml
+RUN sed -i "s/0.0.0-development/${VERSION_ARG}.0/" /app/Cargo.lock
 
 RUN cargo build --release
 
