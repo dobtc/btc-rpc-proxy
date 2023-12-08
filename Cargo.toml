@@ -42,7 +42,6 @@ hyper = { version = "1.0.1", features = [
   "server",
   "http2",
   "http1",
-  "tcp",
 ] }
 itertools = "0.12.0"
 lazy_static = "1.4.0"
