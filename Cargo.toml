@@ -40,7 +40,6 @@ http = "1.0.0"
 hyper = { version = "1.0.1", features = [
   "client",
   "server",
-  "stream",
   "http2",
   "http1",
   "tcp",
