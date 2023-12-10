@@ -63,7 +63,7 @@ systemd_socket = { version = "0.1.1", default-features = false, features = [
 ] }
 
 [build-dependencies]
-configure_me_codegen = "0.4.0"
+configure_me_codegen = "0.4.4"
 
 [package.metadata.deb]
 assets = [
