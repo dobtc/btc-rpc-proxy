@@ -9,7 +9,7 @@ use async_channel as mpmc;
 use bitcoin::{
     consensus::{Decodable, Encodable},
     hash_types::BlockHash,
-    p2p::{
+    network::{
         constants::{Network::Bitcoin, ServiceFlags},
         message::{NetworkMessage, RawNetworkMessage},
         message_blockdata::Inventory,
