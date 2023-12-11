@@ -86,7 +86,7 @@ pub struct GetBlockHeaderResult {
     pub height: usize,
     pub version: i32,
     pub version_hex: Option<HexBytes>,
-    pub merkleroot: bitcoin::TxMerkleNode,
+    pub merkleroot: bitcoin::hash_types::TxMerkleNode,
     pub time: usize,
     pub mediantime: Option<usize>,
     pub nonce: u32,
