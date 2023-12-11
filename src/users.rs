@@ -280,7 +280,7 @@ impl User {
                                             } else {
                                                 None
                                             },
-                                            weight: block.weight(),
+                                            weight: block.weight().to_wu(),
                                             tx: block
                                                 .txdata
                                                 .into_iter()
