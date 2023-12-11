@@ -18,6 +18,7 @@ use serde::{
 };
 use serde_json::{Map, Value};
 use tokio::sync::RwLock;
+use base64::Engine;
 
 pub const MISC_ERROR_CODE: i64 = -1;
 pub const METHOD_NOT_ALLOWED_ERROR_CODE: i64 = -32604;
