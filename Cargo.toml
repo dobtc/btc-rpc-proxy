@@ -36,7 +36,7 @@ enum_future = "0.1"
 futures = "0.3.29"
 hex = "0.4.3"
 http = "0.2.11"
-hyper = { version = "0.14.27", features = [
+hyper = { version = "0.14.28", features = [
   "client",
   "server",
   "stream",
