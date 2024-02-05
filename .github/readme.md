@@ -76,6 +76,9 @@ Especially in case of packaged software.
 * No support for Unix sockets.
 * Redirect instead of blocking might be a useful feaure, which is now lacking.
 
+# Stars
+[![Stars](https://starchart.cc/dobtc/btc-rpc-proxy.svg?variant=adaptive)](https://starchart.cc/dobtc/btc-rpc-proxy)
+
 [build_url]: https://github.com/dobtc/btc-rpc-proxy/
 [hub_url]: https://hub.docker.com/r/dobtc/btc-rpc-proxy/
 [tag_url]: https://hub.docker.com/r/dobtc/btc-rpc-proxy/tags
