@@ -1,6 +1,6 @@
 <h1 align="center">Bitcoin RPC Proxy<br />
 <div align="center">
-<img src="https://raw.githubusercontent.com/dobtc/btc-rpc-proxy/master/.github/logo.png" title="Logo" style="max-width:100%;" width="128" />
+<a href="https://github.com/dobtc/btc-rpc-proxy"><img src="https://raw.githubusercontent.com/dobtc/btc-rpc-proxy/master/.github/logo.png" title="Logo" style="max-width:100%;" width="128" /></a>
 </div>
 <div align="center">
   
