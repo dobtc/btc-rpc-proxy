@@ -15,10 +15,10 @@ ARG DEBCONF_NOWARNINGS="yes"
 ARG DEBIAN_FRONTEND noninteractive
 ARG DEBCONF_NONINTERACTIVE_SEEN true
 
-RUN apt-get update \
-    && apt-get --no-install-recommends -y install tini \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update && \
+    apt-get --no-install-recommends -y install tini && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY --from=builder /app/btc_rpc_proxy.toml /etc/btc_rpc_proxy.toml
 COPY --from=builder /app/target/release/btc_rpc_proxy /usr/local/bin/btc-rpc-proxy
