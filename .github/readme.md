@@ -15,7 +15,7 @@ Finer-grained permission management for bitcoind.
 
 ## How to use
 
-Via `docker-compose`
+Via Docker Compose:
 
 ```yaml
 version: "3"
