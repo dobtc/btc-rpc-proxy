@@ -5,4 +5,4 @@ services:
     ports:
       - 8331:8331
     volumes:
-      - /path/to/config/btc_rpc_proxy.toml:/etc/btc_rpc_proxy.toml
+      - ./btc_rpc_proxy.toml:/etc/btc_rpc_proxy.toml
