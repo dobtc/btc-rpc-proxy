@@ -25,7 +25,13 @@ services:
     ports:
       - 8331:8331
     volumes:
-      - /path/to/config/btc_rpc_proxy.toml:/etc/btc_rpc_proxy.toml
+      - ./btc_rpc_proxy.toml:/etc/btc_rpc_proxy.toml
+```
+
+Via Docker CLI:
+
+```bash
+docker run -it --rm -p 8331:8331 -v "./btc_rpc_proxy.toml:/etc/btc_rpc_proxy.toml" dobtc/btc-rpc-proxy
 ```
 
 ## About
