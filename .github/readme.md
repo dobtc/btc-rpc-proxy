@@ -13,7 +13,7 @@
 
 Finer-grained permission management for bitcoind.
 
-## How to use
+## Usage  🐳
 
 Via Docker Compose:
 
@@ -34,7 +34,7 @@ Via Docker CLI:
 docker run -it --rm -p 8331:8331 -v "./btc_rpc_proxy.toml:/etc/btc_rpc_proxy.toml" dobtc/btc-rpc-proxy
 ```
 
-## About
+## About ℹ️
 
 This is a proxy made specifically for `bitcoind` to allow finer-grained control of permissions. It enables you to specify several users and for each user the list of RPC calls they are allowed to make. When run against a prunded node, the proxy will perform on-demand block fetching and verification, enabling features of a non-pruned node while still using a pruned node.
 
@@ -81,7 +81,7 @@ Especially in case of packaged software.
 * No support for Unix sockets.
 * Redirect instead of blocking might be a useful feaure, which is now lacking.
 
-## Stars
+## Stars 🌟
 [![Stars](https://starchart.cc/dobtc/btc-rpc-proxy.svg?variant=adaptive)](https://starchart.cc/dobtc/btc-rpc-proxy)
 
 [build_url]: https://github.com/dobtc/btc-rpc-proxy/
