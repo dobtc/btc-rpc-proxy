@@ -6,7 +6,7 @@ authors = [
 description = "Finer-grained permission management for bitcoind."
 edition = "2018"
 name = "btc-rpc-proxy"
-version = "0.3.2"
+version = "0.4.0"
 
 [lib]
 name = "btc_rpc_proxy"
@@ -21,7 +21,6 @@ spec = "config_spec.toml"
 
 [features]
 default = ["debug_logs", "systemd"]
-old_rust = []
 debug_logs = ["slog/max_level_debug"]
 systemd = ["systemd_socket/enable_systemd"]
 
@@ -32,19 +31,10 @@ base32 = "0.4.0"
 base64 = "0.13.0"
 bitcoin = { version = "0.29.2", features = ["serde"] }
 configure_me = { version = "0.4.0" }
-# derive_more = "0.99.17"
-enum_future = "0.1"
 futures = "0.3.12"
 hex = "0.4.2"
 http = "0.2.3"
-hyper = { version = "0.14.22", features = [
-  "client",
-  "server",
-  "stream",
-  "http2",
-  "http1",
-  "tcp",
-] }
+hyper = { version = "0.14.4", features = ["client", "server", "stream", "http1", "tcp"] }
 itertools = "0.10.0"
 lazy_static = "1.4.0"
 linear-map = { version = "1.2.0", features = ["serde_impl"] }
@@ -55,15 +45,11 @@ slog-async = "2.6.0"
 slog-term = "2.6.0"
 socks = "0.3.3"
 tokio = { version = "1.0.2", features = ["full"] }
-tokio-compat-02 = "0.2"
-tokio_02 = { version = "0.2.22", package = "tokio", features = ["stream"] }
 thiserror = "1.0.22"
-systemd_socket = { version = "0.1.1", default-features = false, features = [
-  "tokio_0_2",
-] }
+systemd_socket = { version = "0.1.2", default-features = false, features = ["tokio"] }
 
 [build-dependencies]
-configure_me_codegen = "0.4.0"
+configure_me_codegen = "0.4.3"
 
 [package.metadata.deb]
 assets = [
