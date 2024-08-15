@@ -12,11 +12,9 @@ RUN cargo build --release
 # Final
 FROM debian:bookworm-slim
 
-WORKDIR /app
+COPY --from=builder /app/target/release/btc_rpc_proxy /usr/bin/btc_rpc_proxy
 
-COPY --from=builder /app/target/release/btc_rpc_proxy /app/btc_rpc_proxy
-
-RUN chmod +x /app/btc_rpc_proxy
+RUN chmod +x /usr/bin/btc_rpc_proxy
 
 SHELL [ "/bin/bash", "-c" ]
-ENTRYPOINT chmod 600 /app/btc_rpc_proxy.toml && exec /app/btc_rpc_proxy --conf /app/btc_rpc_proxy.toml
+ENTRYPOINT chmod 600 /etc/btc_rpc_proxy.toml && exec /usr/bin/btc_rpc_proxy --conf /etc/btc_rpc_proxy.toml
