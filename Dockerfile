@@ -16,9 +16,7 @@ WORKDIR /app
 
 COPY --from=builder /app/target/release/btc_rpc_proxy /app/btc_rpc_proxy
 
-COPY btc_rpc_proxy.toml /app/btc_rpc_proxy.toml
-
-RUN chmod 600 /app/btc_rpc_proxy.toml
 RUN chmod +x /app/btc_rpc_proxy
 
-CMD [ "/app/btc_rpc_proxy", "--conf", "btc_rpc_proxy.toml" ]
+SHELL [ "/bin/bash", "-c" ]
+ENTRYPOINT chmod 600 /app/btc_rpc_proxy.toml && exec /app/btc_rpc_proxy --conf /app/btc_rpc_proxy.toml
