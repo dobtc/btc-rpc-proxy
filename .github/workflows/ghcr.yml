@@ -8,6 +8,7 @@ on:
   push:
     tags:
       - v*
+    pull_request: []
 
 jobs:
       push-image:
