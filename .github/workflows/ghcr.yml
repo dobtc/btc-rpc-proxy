@@ -1,7 +1,6 @@
 name: ghcr ci
 
 env:
-  DOTNET_VERSION: '6.0.x'
   IMAGE_NAME: 'btc-rpc-proxy'
 
 on:
