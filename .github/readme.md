@@ -95,4 +95,4 @@ Especially in case of packaged software.
 [Pulls]: https://img.shields.io/docker/pulls/dobtc/btc-rpc-proxy.svg?style=flat&label=pulls&logo=docker
 [Version]: https://img.shields.io/docker/v/dobtc/btc-rpc-proxy/latest?arch=amd64&sort=semver&color=066da5
 [Package]: 
-https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fipitio%2Fbackage%2Fmaster%2Findex%2Fdobtc%2Fbtc-rpc-proxy%2Fbtc-rpc-proxy.json&query=%24.downloads&logo=github&style=flat&color=066da5&label=pulls
+https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fipitio.github.io%2Fbackage%2Fdobtc%2Fbtc-rpc-proxy%2Fbtc-rpc-proxy.json&query=%24.downloads&logo=github&style=flat&color=066da5&label=pulls
