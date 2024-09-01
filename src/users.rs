@@ -16,9 +16,6 @@ use crate::fetch_blocks::fetch_block;
 use crate::rpc_methods::{GetBlock, GetBlockHeader, GetBlockHeaderParams, GetBlockResult};
 use crate::state::State;
 
-#[cfg(feature = "old_rust")]
-use crate::util::old_rust::StrCompat;
-
 pub use password::Password;
 
 pub mod input {
@@ -30,14 +27,21 @@ pub mod input {
         pub allowed_calls: HashSet<String>,
         #[serde(default)]
         pub fetch_blocks: Option<bool>,
+        #[serde(default)]
+        pub override_wallet: Option<String>,
     }
 
     impl User {
         fn map_default(self, default_fetch_blocks: bool) -> super::User {
+            let wallet = self.override_wallet.map(|mut wallet| {
+                wallet.insert_str(0, "/wallet/");
+                wallet
+            });
             super::User {
                 password: self.password,
                 allowed_calls: self.allowed_calls,
                 fetch_blocks: self.fetch_blocks.unwrap_or(default_fetch_blocks),
+                override_wallet: wallet,
             }
         }
     }
@@ -187,6 +191,7 @@ pub struct User {
     pub allowed_calls: HashSet<String>,
     #[serde(default)]
     pub fetch_blocks: bool,
+    pub override_wallet: Option<String>,
 }
 impl User {
     pub async fn intercept<'a>(
@@ -325,14 +330,12 @@ mod tests {
 
     fn check(input: Option<bool>, default: bool, expected: bool) {
         let mut users = HashMap::new();
-        users.insert(
-            "satoshi".to_owned(),
-            super::input::User {
-                password: "secret".try_into().expect("failed to create password"),
-                allowed_calls: HashSet::new(),
-                fetch_blocks: input,
-            },
-        );
+        users.insert("satoshi".to_owned(), super::input::User {
+            password: "secret".try_into().expect("failed to create password"),
+            allowed_calls: HashSet::new(),
+            fetch_blocks: input,
+            override_wallet: None,
+        });
 
         let result = super::input::map_default(users, default);
         assert_eq!(result.0["satoshi"].fetch_blocks, expected);
