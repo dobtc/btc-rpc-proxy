@@ -6,6 +6,6 @@
     "enabled": false
   },  
   "cargo": {
-    "enabled": false
+    "enabled": true
   }
 }
