@@ -21,7 +21,6 @@ spec = "config_spec.toml"
 
 [features]
 default = ["debug_logs", "systemd"]
-old_rust = []
 debug_logs = ["slog/max_level_debug"]
 systemd = ["systemd_socket/enable_systemd"]
 
@@ -32,7 +31,6 @@ base32 = "0.5.0"
 base64 = "0.22.1"
 bitcoin = { version = "0.30.2", features = ["serde"] }
 configure_me = { version = "0.4.0" }
-enum_future = "0.1"
 futures = "0.3.30"
 hex = "0.4.3"
 http = "0.2.12"
@@ -54,12 +52,8 @@ slog-async = "2.8.0"
 slog-term = "2.9.1"
 socks = "0.3.4"
 tokio = { version = "1.35.1", features = ["full"] }
-tokio-compat-02 = "0.2"
-tokio_02 = { version = "0.2.25", package = "tokio", features = ["stream"] }
 thiserror = "1.0.61"
-systemd_socket = { version = "0.1.1", default-features = false, features = [
-  "tokio_0_2",
-] }
+systemd_socket = { version = "0.1.2", default-features = false, features = ["tokio"] }
 
 [build-dependencies]
 configure_me_codegen = "0.4.4"
