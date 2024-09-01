@@ -49,7 +49,7 @@ thiserror = "1.0.39"
 systemd_socket = { version = "0.1.2", default-features = false, features = ["tokio"] }
 
 [build-dependencies]
-configure_me_codegen = "0.4.3"
+configure_me_codegen = "0.4.5"
 
 [package.metadata.deb]
 assets = [
