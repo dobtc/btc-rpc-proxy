@@ -5,6 +5,7 @@ use anyhow::Error;
 use bitcoin::consensus::Encodable;
 use hyper::{header::HeaderValue, StatusCode};
 use serde_json::Value;
+use base64::Engine;
 
 use crate::client::{
     GenericRpcMethod, GenericRpcParams, RpcError, RpcMethod, RpcRequest, RpcResponse,
@@ -172,7 +173,7 @@ impl Users {
     pub fn get(&self, auth: &HeaderValue) -> Option<(String, &User)> {
         let header_str = auth.to_str().ok()?;
         let auth = header_str.strip_prefix("Basic ")?;
-        let auth_decoded = base64::decode(auth).ok()?;
+        let auth_decoded = base64::prelude::BASE64_STANDARD.decode(auth).ok()?;
         let auth_decoded_str = std::str::from_utf8(&auth_decoded).ok()?;
         let mut auth_split = auth_decoded_str.split(":");
         let name = auth_split.next()?;
@@ -265,7 +266,7 @@ impl User {
                                 Ok((header, Some(block))) => Ok(Some(RpcResponse {
                                     id: req.id.clone(),
                                     result: {
-                                        let size = block.get_size();
+                                        let size = block.size();
                                         let witness = block
                                             .txdata
                                             .iter()
@@ -285,7 +286,7 @@ impl User {
                                             } else {
                                                 None
                                             },
-                                            weight: block.get_weight(),
+                                            weight: block.weight().to_wu() as usize,
                                             tx: block
                                                 .txdata
                                                 .into_iter()

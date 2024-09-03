@@ -18,6 +18,7 @@ use serde::{
 };
 use serde_json::{Map, Value};
 use tokio::sync::RwLock;
+use base64::Engine;
 
 pub const MISC_ERROR_CODE: i64 = -1;
 pub const METHOD_NOT_ALLOWED_ERROR_CODE: i64 = -32604;
@@ -468,7 +469,7 @@ impl AuthSource {
             (Some(username), Some(password), None) => Ok(AuthSource::Const {
                 header: format!(
                     "Basic {}",
-                    base64::encode(format!("{}:{}", username, password))
+                    base64::prelude::BASE64_STANDARD.encode(format!("{}:{}", username, password))
                 )
                 .parse()?,
                 username,
@@ -494,7 +495,7 @@ impl AuthSource {
                 if cookie.ends_with('\n') {
                     cookie.pop();
                 }
-                base64::encode(cookie)
+                base64::prelude::BASE64_STANDARD.encode(cookie)
             })
             .map_err(|error| AuthLoadError::Read {
                 path: path.to_owned(),
