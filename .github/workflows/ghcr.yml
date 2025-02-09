@@ -4,9 +4,6 @@ env:
   IMAGE_NAME: "btc-rpc-proxy"
 
 on:
-  push:
-    tags:
-      - v*
   workflow_dispatch:
 
 jobs:
