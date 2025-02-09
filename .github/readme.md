@@ -27,6 +27,7 @@ services:
       - 8331:8331
     volumes:
       - ./btc_rpc_proxy.toml:/etc/btc_rpc_proxy.toml
+    restart: always
 ```
 
 Via Docker CLI:
