@@ -61,6 +61,7 @@ systemd_socket = { version = "0.1.2", default-features = false, features = [
 
 [build-dependencies]
 configure_me_codegen = "0.4.3"
+parse_arg = "=0.1.4"
 
 [package.metadata.deb]
 assets = [
