@@ -58,6 +58,8 @@ impl futures::Stream for TcpListener {
         self: std::pin::Pin<&mut Self>,
         cx: &mut std::task::Context<'_>,
     ) -> std::task::Poll<Option<Self::Item>> {
-        self.0.poll_accept(cx).map(|result| Some(result.map(|(conn, _addr)| conn)))
+        self.0
+            .poll_accept(cx)
+            .map(|result| Some(result.map(|(conn, _addr)| conn)))
     }
 }

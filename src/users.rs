@@ -23,7 +23,7 @@ pub mod input {
     #[derive(Debug, serde::Deserialize)]
     pub struct User {
         pub password: super::Password,
-        pub allowed_calls: HashSet<String>,
+        pub allowed_calls: Option<HashSet<String>>,
         #[serde(default)]
         pub fetch_blocks: Option<bool>,
         #[serde(default)]
@@ -60,9 +60,15 @@ mod password {
     use std::ffi::{OsStr, OsString};
     use std::fmt;
 
-    #[derive(serde::Deserialize)]
+    use hmac::{Hmac, Mac};
+    use sha2::Sha256;
+
+    #[derive(PartialEq, serde::Deserialize)]
     #[serde(try_from = "String")]
-    pub struct Password(String);
+    pub enum Password {
+        Cleartext(String),
+        Hash(String, Vec<u8>),
+    }
 
     impl Password {
         fn validate_str(string: &str) -> Result<(), InvalidPasswordError> {
@@ -89,7 +95,7 @@ mod password {
 
         fn try_from(string: String) -> Result<Self, Self::Error> {
             Password::validate_str(&string)?;
-            Ok(Password(string))
+            Ok(Password::Cleartext(string))
         }
     }
 
@@ -98,7 +104,7 @@ mod password {
 
         fn try_from(string: &str) -> Result<Self, Self::Error> {
             Password::validate_str(string)?;
-            Ok(Password(string.to_owned()))
+            Ok(Password::Cleartext(string.to_owned()))
         }
     }
 
@@ -110,7 +116,7 @@ mod password {
                 .to_str()
                 .ok_or(InvalidPasswordError(InvalidPasswordErrorInner::NonAscii))?;
             Password::validate_str(string)?;
-            Ok(Password(string.to_owned()))
+            Ok(Password::Cleartext(string.to_owned()))
         }
 
         fn parse_owned_arg(arg: OsString) -> Result<Self, Self::Error> {
@@ -118,7 +124,7 @@ mod password {
                 .into_string()
                 .map_err(|_| InvalidPasswordError(InvalidPasswordErrorInner::NonAscii))?;
             Password::validate_str(&string)?;
-            Ok(Password(string.to_owned()))
+            Ok(Password::Cleartext(string.to_owned()))
         }
 
         fn describe_type<W: fmt::Write>(mut writer: W) -> fmt::Result {
@@ -137,19 +143,35 @@ mod password {
                     .fold(a.len() ^ b.len(), |acc, item| acc | usize::from(item))
             }
 
-            if self.0.is_empty() {
-                return other.is_empty();
-            }
+            match self {
+                Self::Cleartext(pw) => {
+                    if pw.is_empty() {
+                        return other.is_empty();
+                    }
 
-            let bits = xor_contents(self.0.as_bytes(), other.as_bytes());
-            unsafe { std::ptr::read_volatile(&bits) == 0 }
+                    let bits = xor_contents(pw.as_bytes(), other.as_bytes());
+                    unsafe { std::ptr::read_volatile(&bits) == 0 }
+                }
+                Self::Hash(salt, hash) => (|| {
+                    let mut mac = Hmac::<Sha256>::new_from_slice(salt.as_bytes())?;
+                    mac.update(other.as_bytes());
+                    if mac.finalize().into_bytes().as_slice() != &hash[..] {
+                        Err(anyhow::anyhow!("password does not match"))
+                    } else {
+                        Ok(())
+                    }
+                })()
+                .is_ok(),
+            }
         }
     }
 
-    impl PartialEq for Password {
-        fn eq(&self, other: &Password) -> bool {
-            *self == &*other.0
-        }
+    #[test]
+    fn test_hash() {
+        let salt = "eef909bebf93e7cd1d714af9c3daf1f1".to_owned();
+        let hash = hex::decode("ff9123dfba51640705a0cd977faa98033f537f5930942b566b44639f8c63057b")
+            .unwrap();
+        assert_eq!(Password::Hash(salt, hash), "bar");
     }
 
     #[derive(Debug, thiserror::Error)]
@@ -174,9 +196,7 @@ impl Users {
         let auth = header_str.strip_prefix("Basic ")?;
         let auth_decoded = base64::decode(auth).ok()?;
         let auth_decoded_str = std::str::from_utf8(&auth_decoded).ok()?;
-        let mut auth_split = auth_decoded_str.split(":");
-        let name = auth_split.next()?;
-        let pass = auth_split.next()?;
+        let (name, pass) = auth_decoded_str.split_once(":")?;
         self.0
             .get(name)
             .filter(|u| u.password == pass)
@@ -187,7 +207,7 @@ impl Users {
 #[derive(Debug, serde::Deserialize)]
 pub struct User {
     pub password: Password,
-    pub allowed_calls: HashSet<String>,
+    pub allowed_calls: Option<HashSet<String>>,
     #[serde(default)]
     pub fetch_blocks: bool,
     pub override_wallet: Option<String>,
@@ -198,7 +218,11 @@ impl User {
         state: Arc<State>,
         req: &'a RpcRequest<GenericRpcMethod>,
     ) -> Result<Option<RpcResponse<GenericRpcMethod>>, RpcError> {
-        if self.allowed_calls.contains(&*req.method) {
+        if self
+            .allowed_calls
+            .as_ref()
+            .map_or(true, |ac| ac.contains(&*req.method))
+        {
             match &req.params {
                 GenericRpcParams::Array(params)
                     if self.fetch_blocks && &*req.method == GetBlock.as_str() =>
@@ -329,12 +353,15 @@ mod tests {
 
     fn check(input: Option<bool>, default: bool, expected: bool) {
         let mut users = HashMap::new();
-        users.insert("satoshi".to_owned(), super::input::User {
-            password: "secret".try_into().expect("failed to create password"),
-            allowed_calls: HashSet::new(),
-            fetch_blocks: input,
-            override_wallet: None,
-        });
+        users.insert(
+            "satoshi".to_owned(),
+            super::input::User {
+                password: "secret".try_into().expect("failed to create password"),
+                allowed_calls: Some(HashSet::new()),
+                fetch_blocks: input,
+                override_wallet: None,
+            },
+        );
 
         let result = super::input::map_default(users, default);
         assert_eq!(result.0["satoshi"].fetch_blocks, expected);

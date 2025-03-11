@@ -59,6 +59,12 @@ default = "8332"
 doc = "The port of the real bitcoind."
 
 [[param]]
+name = "passthrough_rpcauth"
+type = "::std::path::PathBuf"
+optional = true
+doc = "Passthrough rpcauth users defined in the provided bitcoin.conf"
+
+[[param]]
 name = "user"
 type = "std::collections::HashMap<String, btc_rpc_proxy::users::input::User>"
 merge_fn = "std::iter::Extend::extend"
