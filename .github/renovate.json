@@ -6,6 +6,9 @@
     "enabled": false
   },  
   "cargo": {
-    "enabled": true
+    "enabled": true,
+    "matchPaths": [
+      "custom/**"
+    ]    
   }
 }
