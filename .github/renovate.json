@@ -7,8 +7,8 @@
   },  
   "cargo": {
     "enabled": true,
-    "matchPaths": [
+    "includePaths": [
       "custom/**"
-    ]    
+    ]
   }
 }
