@@ -6,7 +6,7 @@ env:
 on:
   push:
     tags:
-      - v*
+      - x*
   workflow_dispatch:
 
 jobs:
