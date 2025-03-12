@@ -128,7 +128,7 @@ dependencies = [
  "itertools",
  "lazy_static",
  "linear-map",
- "parse_arg",
+ "parse_arg 0.1.6",
  "serde",
  "serde_json",
  "sha2",
@@ -194,7 +194,7 @@ version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d03c1fbdead926855bdafee8ddf16cd42efb3c75d8cde8c87f8937b99510b39d"
 dependencies = [
- "parse_arg",
+ "parse_arg 0.1.6",
  "serde",
  "serde_derive",
  "toml 0.5.11",
@@ -741,9 +741,18 @@ dependencies = [
 
 [[package]]
 name = "parse_arg"
-version = "0.1.4"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "14248cc8eced350e20122a291613de29e4fa129ba2731818c4cdbb44fccd3e55"
+checksum = "32f05bccc8b6036fec4e0c511954e3997987a82acb6a0b50642ecf7c744fe225"
+dependencies = [
+ "parse_arg 1.0.0",
+]
+
+[[package]]
+name = "parse_arg"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7aa7e02eed7573816a0edb0d7f7aed7cdd59a22d101c3e9dc5e5ea3b935d3346"
 
 [[package]]
 name = "pin-project-lite"
