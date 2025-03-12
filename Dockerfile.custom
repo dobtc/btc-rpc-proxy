@@ -1,10 +1,13 @@
 # Builder
 FROM rust:1.85 AS builder
+ARG VERSION_ARG="0.0"
 
 WORKDIR /app
 COPY . /app
 
-ARG VERSION_ARG="0.0"
+RUN mv /app/Custom.toml /app/Cargo.toml
+RUN mv /app/Custom.lock /app/Cargo.lock
+
 RUN sed -i "s/0.0.0-development/${VERSION_ARG}.0/" /app/Cargo.toml
 RUN sed -i "s/0.0.0-development/${VERSION_ARG}.0/" /app/Cargo.lock
 
