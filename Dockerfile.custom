@@ -5,8 +5,9 @@ ARG VERSION_ARG="0.0"
 WORKDIR /app
 COPY . /app
 
-RUN mv /app/Custom.toml /app/Cargo.toml
-RUN mv /app/Custom.lock /app/Cargo.lock
+RUN mv /app/custom/Cargo.toml /app/Cargo.toml
+RUN mv /app/custom/Cargo.lock /app/Cargo.lock
+RUN rm -r /app/custom
 
 RUN sed -i "s/0.0.0-development/${VERSION_ARG}.0/" /app/Cargo.toml
 RUN sed -i "s/0.0.0-development/${VERSION_ARG}.0/" /app/Cargo.lock
