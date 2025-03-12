@@ -25,7 +25,7 @@ jobs:
         name: Lint Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: Dockerfile
+          dockerfile: Dockerfile.custom
           ignore: DL3007,DL3008,DL3059
           failure-threshold: warning
       -
@@ -67,6 +67,7 @@ jobs:
           context: .
           push: true
           provenance: false
+          file: ./Dockerfile.custom          
           platforms: linux/amd64, linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
