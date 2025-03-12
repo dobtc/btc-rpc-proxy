@@ -1,0 +1,84 @@
+[package]
+authors = [
+  "Martin Habovštiak <martin.habovstiak@gmail.com>",
+  "Aiden McClelland <aiden@start9labs.com>",
+]
+description = "Finer-grained permission management for bitcoind."
+edition = "2018"
+name = "btc-rpc-proxy"
+version = "0.4.0"
+
+[lib]
+name = "btc_rpc_proxy"
+path = "src/lib.rs"
+
+[[bin]]
+name = "btc_rpc_proxy"
+path = "src/main.rs"
+
+[package.metadata.configure_me]
+spec = "config_spec.toml"
+
+[features]
+default = ["debug_logs", "systemd"]
+debug_logs = ["slog/max_level_debug"]
+systemd = ["systemd_socket/enable_systemd"]
+
+[dependencies]
+anyhow = "1.0.38"
+async-channel = "1.5.1"
+base32 = "0.4.0"
+base64 = "0.13.0"
+bitcoin = { version = "0.29.2", features = ["serde"] }
+configure_me = { version = "0.4.0" }
+futures = "0.3.12"
+hex = "0.4.2"
+hmac = "0.12.1"
+http = "0.2.3"
+hyper = { version = "0.14.4", features = [
+  "client",
+  "server",
+  "stream",
+  "http1",
+  "tcp",
+] }
+itertools = "0.10.0"
+lazy_static = "1.4.0"
+linear-map = { version = "1.2.0", features = ["serde_impl"] }
+serde = { version = "1.0.117", features = ["derive"] }
+serde_json = "1.0.59"
+sha2 = "0.10.8"
+slog = "2.7.0"
+slog-async = "2.6.0"
+slog-term = "2.6.0"
+socks = "0.3.3"
+tokio = { version = "1.28.2", features = ["full"] }
+tracing = { version = "0.1.41", features = ["log"] }
+thiserror = "1.0.22"
+systemd_socket = { version = "0.1.2", default-features = false, features = [
+  "tokio",
+] }
+
+[build-dependencies]
+configure_me_codegen = "0.4.3"
+parse_arg = "=0.1.4"
+
+[package.metadata.deb]
+assets = [
+  [
+    "target/release/btc_rpc_proxy",
+    "usr/bin/btc_rpc_proxy",
+    "755",
+  ],
+  [
+    "target/man/btc_rpc_proxy.1",
+    "usr/bin/btc_rpc_proxy",
+    "644",
+  ],
+]
+extended-description = """
+This is a proxy made specifically for `bitcoind` to allow finer-grained control of permissions. It enables you to specify several users and for each user the list of RPC calls he's allowed to make.
+
+This is useful because `bitcoind` allows every application with password to make possibly harmful calls like stopping the daemon or spending from wallet (if enabled). If you have several applications, you can provide the less trusted ones a different password and permissions than the others using this project.
+
+There's another interesting advantage: since this is written in Rust, it might serve as a filter for **some** malformed requests which might be exploits. But I don't recommend relying on it!"""
