@@ -33,7 +33,7 @@ services:
 ##### Via Docker CLI:
 
 ```bash
-docker run -it --rm --name rpc-proxy -p 8331:8331 -v ${PWD:-.}/btc_rpc_proxy.toml:/etc/btc_rpc_proxy.toml dobtc/btc-rpc-proxy
+docker run -it --rm --name rpc-proxy -p 8331:8331 -v "${PWD:-.}/btc_rpc_proxy.toml:/etc/btc_rpc_proxy.toml" dobtc/btc-rpc-proxy
 ```
 
 ## About ℹ️
