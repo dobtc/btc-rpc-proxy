@@ -1,5 +1,5 @@
 # Builder
-FROM rust:1.85 AS builder
+FROM rust:1.90 AS builder
 
 RUN apt-get update && apt-get install
 
