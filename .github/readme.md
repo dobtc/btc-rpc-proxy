@@ -84,7 +84,7 @@ Especially in case of packaged software.
 * Redirect instead of blocking might be a useful feaure, which is now lacking.
 
 ## Stars 🌟
-[![Stars](https://starchart.cc/dobtc/btc-rpc-proxy.svg?variant=adaptive)](https://starchart.cc/dobtc/btc-rpc-proxy)
+[![Stargazers](https://raw.githubusercontent.com/star-stats/stars/refs/heads/data/charts/dobtc-btc-rpc-proxy.svg)](https://github.com/dobtc/btc-rpc-proxy/stargazers)
 
 [build_url]: https://github.com/dobtc/btc-rpc-proxy/
 [hub_url]: https://hub.docker.com/r/dobtc/btc-rpc-proxy/
