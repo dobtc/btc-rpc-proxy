@@ -16,7 +16,7 @@ Finer-grained permission management for bitcoind.
 
 ## Usage  🐳
 
-##### Via Docker Compose:
+##### Docker Compose:
 
 ```yaml
 services:
@@ -30,7 +30,7 @@ services:
     restart: always
 ```
 
-##### Via Docker CLI:
+##### Docker CLI:
 
 ```bash
 docker run -it --rm --name rpc-proxy -p 8331:8331 -v "${PWD:-.}/btc_rpc_proxy.toml:/etc/btc_rpc_proxy.toml" docker.io/dobtc/btc-rpc-proxy
