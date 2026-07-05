@@ -14,6 +14,16 @@
 
 Finer-grained permission management for bitcoind.
 
+## Features ✨
+
+- Provides a permission-aware Bitcoin RPC proxy
+- Allows fine-grained access control for Bitcoin Core RPC calls
+- Supports multiple RPC users with separate permissions
+- Can restrict users to specific Bitcoin wallets
+- Forwards approved requests to a Bitcoin Core node
+- Helps safely expose limited RPC access to applications
+- Works on both AMD64 and ARM64 systems
+
 ## Usage  🐳
 
 ##### Docker Compose:
